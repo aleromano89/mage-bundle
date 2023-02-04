@@ -1,5 +1,5 @@
 {
-  "name": "ctasca/mage-bundle",
+  "name": "aleromano89/mage-bundle",
   "type": "magento2-module",
   "description": "Easily create Magento/Adobe Commerce PHP/XML/JS files from a set of templates",
   "license": [
