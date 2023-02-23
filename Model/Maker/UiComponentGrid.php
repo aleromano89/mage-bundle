@@ -11,6 +11,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class UiComponentGrid extends AbstractMaker implements MakerUiComponentXmlInterface
 {
+
+    protected $componentType = "grid";
+
     /**
      * {@inheritdoc}
      */
@@ -20,10 +23,10 @@ class UiComponentGrid extends AbstractMaker implements MakerUiComponentXmlInterf
         $moduleName = $this->questionHelper->ask($input, $output, $question);
         try {
             /** @var \Ctasca\MageBundle\Model\Template\Locator $templateLocator */
-            list($templateLocator,)  = $this->locateTemplateDirectory(self::UI_COMPONENT_TEMPLATES_DIR);
-            $question = $this->makeGridNamespaceQuestion(
+            list($templateLocator,)  = $this->locateTemplateDirectory(self::UI_COMPONENT_XML_TEMPLATES_DIR);
+            $question = $this->makeUiComponentNamespaceQuestion(
                 $templateLocator,
-                'Please type the namespace for grid Ui component'
+                'Please type the namespace for the Ui component'
             );
             $namespace = $this->questionHelper->ask($input, $output, $question);
 
@@ -39,8 +42,6 @@ class UiComponentGrid extends AbstractMaker implements MakerUiComponentXmlInterf
                 $pathToFile);
 
             $xmlDirectoryPath = $this->makePathFromArray($pathArray);
-            $dataProvider->setModule($moduleName);
-            $dataProvider->setLowercaseModule(strtolower($moduleName));
             $dataProvider->setNamespace($namespace);
 
             $gridXmlFilename = "{$namespace}_grid";
@@ -49,7 +50,7 @@ class UiComponentGrid extends AbstractMaker implements MakerUiComponentXmlInterf
                 $xmlDirectoryPath,
                 $input,
                 $output,
-                self::UI_COMPONENT_TEMPLATES_DIR,
+                self::UI_COMPONENT_XML_TEMPLATES_DIR,
                 $dataProvider,
                 $gridXmlFilename,
                 '.xml'
@@ -73,7 +74,7 @@ class UiComponentGrid extends AbstractMaker implements MakerUiComponentXmlInterf
      * @param OutputInterface $output
      * @param mixed $namespace
      */
-    protected function showFollowingStepsTips(mixed $moduleName, OutputInterface $output, mixed $namespace): void
+    protected function showFollowingStepsTips(string $moduleName, OutputInterface $output, string $namespace): void
     {
         $vendor = explode("_", $moduleName)[0];
         $module = explode("_", $moduleName)[1];
